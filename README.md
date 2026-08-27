@@ -189,6 +189,19 @@ might need to be done as a separate step between 1. and 2.
 clvk supports the `cl_khr_icd` OpenCL extension that makes it possible
 to use the [OpenCL ICD Loader](https://github.com/KhronosGroup/OpenCL-ICD-Loader).
 
+## Sharing with OpenGL
+
+clvk supports `cl_khr_gl_sharing`. There is no handle a Vulkan
+implementation and an arbitrary GL implementation can be made to agree on,
+so the sharing is done by copying: `clEnqueueAcquireGLObjects` reads the GL
+object and writes the OpenCL one, `clEnqueueReleaseGLObjects` does the
+reverse, and both wait for the copy to finish. Textures, buffers and
+renderbuffers are supported; a renderbuffer is read only.
+
+The GL entry points are resolved from the GL library the process has
+already loaded, and the extension is only reported when that succeeds. Set
+`CLVK_GL_SHARING=0` to hide it.
+
 ## Directly
 
 To use clvk to run an OpenCL application, you just need to make sure that the
