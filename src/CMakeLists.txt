@@ -60,6 +60,7 @@ add_library(OpenCL-objects OBJECT
   device.cpp
   device_properties.cpp
   event.cpp
+  gl_sharing.cpp
   image_format.cpp
   init.cpp
   kernel.cpp
@@ -86,7 +87,7 @@ endif()
 
 # Disable deprecation warnings on the file that has the entrypoints.
 if (NOT MSVC)
-set_source_files_properties(api.cpp PROPERTIES COMPILE_FLAGS
+set_source_files_properties(api.cpp gl_sharing.cpp PROPERTIES COMPILE_FLAGS
     -Wno-deprecated-declarations)
 endif()
 

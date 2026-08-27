@@ -267,6 +267,11 @@ EARLY_OPTION(std::string, config_file, "")
 //  * 1: enabled
 OPTION(bool, validation_layers, false)
 
+// Report cl_khr_gl_sharing and accept the GL context properties that come
+// with it. The sharing is done by copying through the host, so it costs a
+// round trip per acquire and release; turn it off to hide the extension.
+OPTION(bool, gl_sharing, true)
+
 // Control SPIR-V validation behaviour:
 //  * 0: skip validation
 //  * 1: warn when validation fails
@@ -291,4 +296,5 @@ OPTION(bool, force_cvk_command_buffer_end_error, false)
 
 // Control whether early flushing is enabled for unit tests.
 OPTION(bool, early_flush_enabled, true)
+
 #endif

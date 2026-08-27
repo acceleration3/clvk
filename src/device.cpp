@@ -20,6 +20,7 @@
 
 #include "config.hpp"
 #include "device.hpp"
+#include "gl_sharing.hpp"
 #include "init.hpp"
 #include "kernel.hpp"
 #include "log.hpp"
@@ -586,6 +587,10 @@ void cvk_device::build_extension_ils_list() {
         // MAKE_NAME_VERSION(0, 9, 0, "cl_khr_semaphore"),
         MAKE_NAME_VERSION(1, 0, 0, "cl_khr_spirv_linkonce_odr"),
     };
+
+    if (cvk_gl_sharing_available()) {
+        m_extensions.push_back(MAKE_NAME_VERSION(1, 0, 0, "cl_khr_gl_sharing"));
+    }
 
     if (m_properties.apiVersion >= VK_MAKE_VERSION(1, 1, 0)) {
         m_extensions.push_back(

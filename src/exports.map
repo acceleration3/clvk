@@ -48,6 +48,16 @@ OPENCL_1.0 {
     clGetEventInfo;
     clGetEventProfilingInfo;
     clGetExtensionFunctionAddress;
+    clCreateFromGLBuffer;
+    clCreateFromGLTexture;
+    clCreateFromGLTexture2D;
+    clCreateFromGLTexture3D;
+    clCreateFromGLRenderbuffer;
+    clGetGLObjectInfo;
+    clGetGLTextureInfo;
+    clEnqueueAcquireGLObjects;
+    clEnqueueReleaseGLObjects;
+    clGetGLContextInfoKHR;
     clGetImageInfo;
     clGetKernelInfo;
     clGetKernelWorkGroupInfo;

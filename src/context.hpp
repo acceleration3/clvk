@@ -85,6 +85,18 @@ struct cvk_context : public _cl_context,
             case CL_PRINTF_CALLBACK_ARM:
                 m_printf_callback = (cvk_printf_callback_t)m_properties[i + 1];
                 break;
+            // The GL sharing properties name a context this implementation
+            // never touches directly: the sharing is done by copying
+            // through the host, so the handles are recorded and no more.
+            case CL_GL_CONTEXT_KHR:
+            case CL_EGL_DISPLAY_KHR:
+            case CL_GLX_DISPLAY_KHR:
+            case CL_WGL_HDC_KHR:
+            case CL_CGL_SHAREGROUP_KHR:
+                if (!config.gl_sharing) {
+                    return CL_INVALID_PROPERTY;
+                }
+                break;
             case 0:
                 break;
             default:

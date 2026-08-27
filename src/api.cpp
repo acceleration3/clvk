@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "cl_headers.hpp"
+#include "gl_sharing.hpp"
 #include "icd.hpp"
 #include "image_format.hpp"
 #include "init.hpp"
@@ -296,8 +297,7 @@ cl_int CLVK_API_CALL clGetPlatformInfo(cl_platform_id platform,
 
 static const std::unordered_map<std::string, void*> gExtensionEntrypoints = {
 #define FUNC_PTR(X) reinterpret_cast<void*>(X)
-#define EXTENSION_ENTRYPOINT(X)                                                \
-    { #X, FUNC_PTR(X) }
+#define EXTENSION_ENTRYPOINT(X) {#X, FUNC_PTR(X)}
     EXTENSION_ENTRYPOINT(clCreateProgramWithILKHR),
     EXTENSION_ENTRYPOINT(clIcdGetPlatformIDsKHR),
     EXTENSION_ENTRYPOINT(clCreateCommandQueueWithPropertiesKHR),
@@ -309,6 +309,16 @@ static const std::unordered_map<std::string, void*> gExtensionEntrypoints = {
     EXTENSION_ENTRYPOINT(clGetSemaphoreInfoKHR),
     EXTENSION_ENTRYPOINT(clRetainSemaphoreKHR),
     EXTENSION_ENTRYPOINT(clReleaseSemaphoreKHR),
+    EXTENSION_ENTRYPOINT(clCreateFromGLBuffer),
+    EXTENSION_ENTRYPOINT(clCreateFromGLTexture),
+    EXTENSION_ENTRYPOINT(clCreateFromGLTexture2D),
+    EXTENSION_ENTRYPOINT(clCreateFromGLTexture3D),
+    EXTENSION_ENTRYPOINT(clCreateFromGLRenderbuffer),
+    EXTENSION_ENTRYPOINT(clGetGLObjectInfo),
+    EXTENSION_ENTRYPOINT(clGetGLTextureInfo),
+    EXTENSION_ENTRYPOINT(clEnqueueAcquireGLObjects),
+    EXTENSION_ENTRYPOINT(clEnqueueReleaseGLObjects),
+    EXTENSION_ENTRYPOINT(clGetGLContextInfoKHR),
 #undef EXTENSION_ENTRYPOINT
 #undef FUNC_PTR
 };
@@ -6443,15 +6453,15 @@ cl_icd_dispatch gDispatchTable = {
     clEnqueueWaitForEvents,
     clEnqueueBarrier,
     clGetExtensionFunctionAddress,
-    nullptr, // clCreateFromGLBuffer;
-    nullptr, // clCreateFromGLTexture2D;
-    nullptr, // clCreateFromGLTexture3D;
-    nullptr, // clCreateFromGLRenderbuffer;
-    nullptr, // clGetGLObjectInfo;
-    nullptr, // clGetGLTextureInfo;
-    nullptr, // clEnqueueAcquireGLObjects;
-    nullptr, // clEnqueueReleaseGLObjects;
-    nullptr, // clGetGLContextInfoKHR;
+    clCreateFromGLBuffer,
+    clCreateFromGLTexture2D,
+    clCreateFromGLTexture3D,
+    clCreateFromGLRenderbuffer,
+    clGetGLObjectInfo,
+    clGetGLTextureInfo,
+    clEnqueueAcquireGLObjects,
+    clEnqueueReleaseGLObjects,
+    clGetGLContextInfoKHR,
 
     nullptr, // clGetDeviceIDsFromD3D10KHR;
     nullptr, // clCreateFromD3D10BufferKHR;
@@ -6494,7 +6504,7 @@ cl_icd_dispatch gDispatchTable = {
     clEnqueueMarkerWithWaitList,
     clEnqueueBarrierWithWaitList,
     clGetExtensionFunctionAddressForPlatform,
-    nullptr, // clCreateFromGLTexture;
+    clCreateFromGLTexture,
 
     /* cl_khr_d3d11_sharing */
     nullptr, // clGetDeviceIDsFromD3D11KHR;

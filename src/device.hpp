@@ -27,6 +27,7 @@
 #include "cl_headers.hpp"
 #include "config.hpp"
 #include "device_properties.hpp"
+#include "gl_sharing.hpp"
 #include "icd.hpp"
 #include "objects.hpp"
 #include "sha1.hpp"
@@ -898,6 +899,11 @@ struct cvk_platform : public _cl_platform_id,
             MAKE_NAME_VERSION(1, 0, 0, "cl_khr_icd"),
             MAKE_NAME_VERSION(1, 0, 0, "cl_khr_extended_versioning"),
         };
+
+        if (cvk_gl_sharing_available()) {
+            m_extensions.push_back(
+                MAKE_NAME_VERSION(1, 0, 0, "cl_khr_gl_sharing"));
+        }
 
         for (auto& ext : m_extensions) {
             m_extension_string += ext.name;
